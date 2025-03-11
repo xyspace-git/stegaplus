@@ -20,7 +20,7 @@ StegPlus is a command-line utility designed to embed and extract data within ima
 ### Installation Steps
 #### Clone the Repository
 ```bash
-git clone https://github.com/yourusername/stegplus.git
+git clone https://github.com/xyspace-git/stegplus.git
 cd stegplus
 ```
 #### Install Dependencies
