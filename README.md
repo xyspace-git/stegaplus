@@ -1,98 +1,86 @@
 # StegPlus
 
-## Overview
-StegPlus is a command-line utility designed to embed and extract data within images using steganography techniques. It leverages the `stegosuite` library for steganography operations and provides a user-friendly interface for various steganography tasks. The tool supports embedding and extracting data with an optional encryption key for added security.
+## Introduction
+StegPlus is a command-line tool that allows users to embed and extract data from images using steganography. It also provides features for downloading images, encrypting embedded data, and converting files to different formats (Base64, Hex).
 
 ## Features
-- Embed data into images.
-- Extract data from images.
-- Convert files to base64 or hex format.
-- Download images using keywords.
-- Optional encryption key for embedding and extracting data.
+- Embed data into an image
+- Extract data from an image
+- Convert files to Base64 or Hex
+- Download images from the internet
+- Encrypt and decrypt data with a key
+- GUI-based interaction (basic text-based)
 
 ## Installation
+Ensure you have the required dependencies installed:
 
-### Prerequisites
-- Python 3.x
-- `stegosuite` library
-- `cryptography` library
+```bash
+pip install cryptography requests
+```
 
-### Installation Steps
-#### Clone the Repository
-```bash
-git clone https://github.com/xyspace-git/stegplus.git
-cd stegplus
-```
-#### Install Dependencies
-```bash
-pip install stegosuite cryptography
-```
-#### Make the Bash Script Executable
+Make the Bash script executable:
+
 ```bash
 chmod +x stegplus
 ```
 
 ## Usage
 
-### Command-Line Interface
-The tool provides a set of commands for various steganography operations. Here are some examples:
-
-#### Embed Data into an Image
-```bash
-./stegplus -e secret.txt -k nature
-```
-This command embeds the contents of `secret.txt` into an image downloaded using the keyword "nature".
-
-#### Extract Data from an Image
-```bash
-./stegplus -x output_image.png
-```
-This command extracts data from `output_image.png` and saves it to `extracted_data.txt`.
-
-#### Convert a File to Base64
-```bash
-./stegplus -c secret.txt base64
-```
-This command converts `secret.txt` to a base64-encoded file.
-
-#### Download an Image Using a Keyword
-```bash
-./stegplus -d nature
-```
-This command downloads an image using the keyword "nature".
-
-#### Show Help Message
+### Show Help
 ```bash
 ./stegplus -h
 ```
-This command displays the help message with usage instructions.
 
-#### Launch GUI
+### Launch GUI Mode
 ```bash
 ./stegplus -g
 ```
-This command launches a simple text-based GUI for interactive use.
 
-## Encryption Key
-You can use an optional encryption key for embedding and extracting data to add an extra layer of security. The key can be generated using the `generate_key` function in the Python script.
-
-### Generate a Key
-```python
-from cryptography.fernet import Fernet
-
-key = Fernet.generate_key()
-print(key)
-```
-
-### Embed Data with a Key
+### Embed Data into an Image
 ```bash
-./stegplus -e secret.txt -k nature -i temp_image.jpg --key your_generated_key
+./stegplus -e <file> -i <image> --key <encryption_key>
+```
+- `<file>`: File to embed
+- `<image>`: Image file to use
+- `--key`: (Optional) Encryption key
+
+### Extract Data from an Image
+```bash
+./stegplus -x <image> --key <encryption_key>
+```
+- `<image>`: Image file to extract data from
+- `--key`: (Optional) Encryption key
+
+### Convert File to Base64 or Hex
+```bash
+./stegplus -c <file> <type>
+```
+- `<file>`: File to convert
+- `<type>`: `base64` or `hex`
+
+### Download an Image
+```bash
+./stegplus -d <keyword>
+```
+- `<keyword>`: Keyword for searching an image
+
+### Check Version
+```bash
+./stegplus -v
 ```
 
-### Extract Data with a Key
-```bash
-./stegplus -x output_image.png --key your_generated_key
-```
+## Python Backend (stegplus_process.py)
+The script processes embedding, extraction, and encryption using the `cryptography` module.
+
+### Key Functions
+- `download_image(keyword)`: Downloads an image from Unsplash.
+- `embed_data(file, image, keyword, key)`: Embeds a file into an image with optional encryption.
+- `extract_data(image, key)`: Extracts hidden data from an image.
+- `convert_file(file, file_type)`: Converts a file to Base64 or Hex.
+
+## Notes
+- The tool relies on external steganography software (`stegosuite`), so ensure it's installed.
+- Encryption is done using the `cryptography` library.
 
 ## Contributing
 Contributions are welcome! Please feel free to open an issue or submit a pull request.
