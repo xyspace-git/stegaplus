@@ -21,22 +21,11 @@ def download_image(keyword):
     response = requests.get(search_url, headers=headers)
     
     if response.status_code == 200:
-        image_url = extract_first_image_url(response.text)
-        if image_url:
-            img_response = requests.get(image_url, headers=headers)
-            if img_response.status_code == 200:
-                with open("temp_image.jpg", "wb") as file:
-                    file.write(img_response.content)
-                return "temp_image.jpg"
-    
-    raise Exception("Failed to download image")
-
-def extract_first_image_url(html):
-    import re
-    match = re.search(r'"(https?:\\/\\/[^"\\]+)"', html)
-    if match:
-        return match.group(1).replace('\\/', '/')
-    return None
+        with open("temp_image.jpg", "wb") as file:
+            file.write(response.content)
+        return "temp_image.jpg"
+    else:
+        raise Exception("Failed to download image")
 
 def embed_data(embed_file, keyword, key=None):
     image = download_image(keyword)
@@ -89,17 +78,20 @@ def convert_file(file, file_type):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--embed", type=str, help="Data file to embed")
-    parser.add_argument("--keyword", type=str, help="Keyword for image search")
+    parser.add_argument("-e", "--embed", type=str, help="Data file to embed")
+    parser.add_argument("-k", "--keyword", type=str, help="Keyword for image search")
     parser.add_argument("--key", type=str, help="Encryption key")
-    parser.add_argument("--extract", type=str, help="Extract data from an image")
-    parser.add_argument("--convert", nargs=2, metavar=("file", "type"), help="Convert file to specified type (base64, hex)")
-    parser.add_argument("--version", action="store_true", help="Show the version of the tool")
+    parser.add_argument("-x", "--extract", type=str, help="Extract data from an image")
+    parser.add_argument("-c", "--convert", nargs=2, metavar=("file", "type"), help="Convert file to specified type (base64, hex)")
+    parser.add_argument("-v", "--version", action="store_true", help="Show the version of the tool")
     args = parser.parse_args()
     
     if args.version:
         print("Steganography Tool Version 1.0")
     elif args.embed:
+        if not args.keyword:
+            print("Error: Keyword required for image download.")
+            return
         embed_data(args.embed, args.keyword, args.key)
     elif args.extract:
         extract_data(args.extract, args.key)
