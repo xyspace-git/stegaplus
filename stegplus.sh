@@ -29,17 +29,21 @@ launch_gui() {
             read -p "Enter the file to embed: " file
             read -p "Enter a keyword for image search: " keyword
             read -p "Enter an encryption key (or press Enter to skip): " key
-            python3 stegplus_process.py -e "$file" -k "$keyword" --key "$key"
+            if [ -z "$keyword" ]; then
+                echo "Error: A keyword is required to download an image."
+                exit 1
+            fi
+            python3 stegplus_process.py --embed "$file" --keyword "$keyword" ${key:+--key "$key"}
             ;;
         2)
             read -p "Enter the image file: " image
             read -p "Enter an encryption key (or press Enter to skip): " key
-            python3 stegplus_process.py -x "$image" --key "$key"
+            python3 stegplus_process.py --extract "$image" ${key:+--key "$key"}
             ;;
         3)
             read -p "Enter the file to convert: " file
             read -p "Enter the conversion type (base64, hex): " type
-            python3 stegplus_process.py -c "$file" "$type"
+            python3 stegplus_process.py --convert "$file" "$type"
             ;;
         4)
             echo "Exiting..."
@@ -77,7 +81,7 @@ while [[ $# -gt 0 ]]; do
                 key=$1
                 shift
             fi
-            python3 stegplus_process.py -x "$image" --key "$key"
+            python3 stegplus_process.py --extract "$image" ${key:+--key "$key"}
             exit 0
             ;;
         -e|--embed)
@@ -113,7 +117,7 @@ while [[ $# -gt 0 ]]; do
                 exit 1
             fi
 
-            python3 stegplus_process.py -e "$file" -k "$keyword" --key "$key"
+            python3 stegplus_process.py --embed "$file" --keyword "$keyword" ${key:+--key "$key"}
             exit 0
             ;;
         -c|--convert)
@@ -129,11 +133,11 @@ while [[ $# -gt 0 ]]; do
                 exit 1
             fi
             type=$1
-            python3 stegplus_process.py -c "$file" "$type"
+            python3 stegplus_process.py --convert "$file" "$type"
             exit 0
             ;;
         -v|--version)
-            python3 stegplus_process.py -v
+            python3 stegplus_process.py --version
             exit 0
             ;;
         *)
