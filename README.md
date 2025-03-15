@@ -1,7 +1,7 @@
-# StegPlus
+# StegaPlus
 
 ## Introduction
-StegPlus is a command-line tool that allows users to embed and extract data from images using steganography. It also provides features for downloading images, encrypting embedded data, and converting files to different formats (Base64, Hex).
+StegaPlus is a command-line tool that allows users to embed and extract data from images using steganography. It also provides features for downloading images, encrypting embedded data, and converting files to different formats (Base64, Hex).
 
 ## Features
 - Embed data into an image
