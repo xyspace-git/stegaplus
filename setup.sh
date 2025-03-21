@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Running Setup..."
 sleep 2
 clear
