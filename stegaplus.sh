@@ -1,6 +1,6 @@
 #!/bin/bash
-figlet -c Img-DL Plugin
+figlet -c STEGAPLUS
 echo ""
-echo "                         [Utility Plugin for StegPlus]"
+echo "                         [Working on the IMG-DL plugin]"
 echo "                             | Made by Afton@XSN |"
 echo "                                  COMING SOON!"
